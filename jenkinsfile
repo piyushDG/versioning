@@ -7,31 +7,32 @@ pipeline {
                 echo "${env.BRANCH_NAME}"
                 sh '''
                     printenv
-                    
                 '''
             }
         }
 
         stage('master') {
             when {
-                branch "master"
+                expression {
+                    return env.BRANCH_NAME == 'master'
+                }
             }
             steps {
                 echo "${env.BRANCH_NAME}"
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /home/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
+                    /home/jenkins/git-versioning/dotnet-gitversion /output buildserver
                 '''
                 script {
                     echo "This is Master branch Execution"
                     def props = readProperties file: 'gitversion.properties'
-                    env.GitVersion_SemVer = props.GitVersion_SemVer
-                    env.GitVersion_FullSemVer = props.GitVersion_FullSemVer
-                    env.GitVersion_BranchName = props.GitVersion_BranchName
-                    env.GitVersion_AssemblySemVer = props.GitVersion_AssemblySemVer
-                    env.GitVersion_MajorMinorPatch = props.GitVersion_MajorMinorPatch
-                    env.GitVersion_Sha = props.GitVersion_Sha
+                    env.GitVersion_SemVer = props.getProperty('GitVersion_SemVer')
+                    env.GitVersion_FullSemVer = props.getProperty('GitVersion_FullSemVer')
+                    env.GitVersion_BranchName = props.getProperty('GitVersion_BranchName')
+                    env.GitVersion_AssemblySemVer = props.getProperty('GitVersion_AssemblySemVer')
+                    env.GitVersion_MajorMinorPatch = props.getProperty('GitVersion_MajorMinorPatch')
+                    env.GitVersion_Sha = props.getProperty('GitVersion_Sha')
                     echo env.GitVersion_SemVer
                     echo env.GitVersion_MajorMinorPatch
                     echo env.GitVersion_FullSemVer
@@ -41,50 +42,26 @@ pipeline {
 
         stage('major') {
             when {
-                branch "major/*"
-            }
-            steps {
-                echo "${env.BRANCH_NAME}"
-                echo "${BRANCH_NAME}"
-                sh '''
-                    printenv
-                    /home/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
-                '''
-                echo "This is Major branch Execution"
-                script {
-                    def props = readProperties file: 'gitversion.properties'
-                    env.GitVersion_SemVer = props.GitVersion_SemVer
-                    env.GitVersion_FullSemVer = props.GitVersion_FullSemVer
-                    env.GitVersion_BranchName = props.GitVersion_BranchName
-                    env.GitVersion_AssemblySemVer = props.GitVersion_AssemblySemVer
-                    env.GitVersion_MajorMinorPatch = props.GitVersion_MajorMinorPatch
-                    env.GitVersion_Sha = props.GitVersion_Sha
-                    echo env.GitVersion_SemVer
-                    echo env.GitVersion_MajorMinorPatch
-                    echo env.GitVersion_FullSemVer
+                expression {
+                    return env.BRANCH_NAME.startsWith('major/')
                 }
             }
-        }
-        stage('Feature') {
-            when {
-                branch "feature/*"
-            }
             steps {
                 echo "${env.BRANCH_NAME}"
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /home/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
+                    /home/jenkins/git-versioning/dotnet-gitversion /output buildserver
                 '''
                 echo "This is Major branch Execution"
                 script {
                     def props = readProperties file: 'gitversion.properties'
-                    env.GitVersion_SemVer = props.GitVersion_SemVer
-                    env.GitVersion_FullSemVer = props.GitVersion_FullSemVer
-                    env.GitVersion_BranchName = props.GitVersion_BranchName
-                    env.GitVersion_AssemblySemVer = props.GitVersion_AssemblySemVer
-                    env.GitVersion_MajorMinorPatch = props.GitVersion_MajorMinorPatch
-                    env.GitVersion_Sha = props.GitVersion_Sha
+                    env.GitVersion_SemVer = props.getProperty('GitVersion_SemVer')
+                    env.GitVersion_FullSemVer = props.getProperty('GitVersion_FullSemVer')
+                    env.GitVersion_BranchName = props.getProperty('GitVersion_BranchName')
+                    env.GitVersion_AssemblySemVer = props.getProperty('GitVersion_AssemblySemVer')
+                    env.GitVersion_MajorMinorPatch = props.getProperty('GitVersion_MajorMinorPatch')
+                    env.GitVersion_Sha = props.getProperty('GitVersion_Sha')
                     echo env.GitVersion_SemVer
                     echo env.GitVersion_MajorMinorPatch
                     echo env.GitVersion_FullSemVer
@@ -92,26 +69,28 @@ pipeline {
             }
         }
 
-        stage('BugFix') {
+        stage('hotfix') {
             when {
-                branch "bugfix/*"
+                expression {
+                    return env.BRANCH_NAME.startsWith('hotfix/')
+                }
             }
             steps {
                 echo "${env.BRANCH_NAME}"
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /home/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
+                    /home/jenkins/git-versioning/dotnet-gitversion /output buildserver
                 '''
                 echo "This is bugfix branch Execution"
                 script {
                     def props = readProperties file: 'gitversion.properties'
-                    env.GitVersion_SemVer = props.GitVersion_SemVer
-                    env.GitVersion_FullSemVer = props.GitVersion_FullSemVer
-                    env.GitVersion_BranchName = props.GitVersion_BranchName
-                    env.GitVersion_AssemblySemVer = props.GitVersion_AssemblySemVer
-                    env.GitVersion_MajorMinorPatch = props.GitVersion_MajorMinorPatch
-                    env.GitVersion_Sha = props.GitVersion_Sha
+                    env.GitVersion_SemVer = props.getProperty('GitVersion_SemVer')
+                    env.GitVersion_FullSemVer = props.getProperty('GitVersion_FullSemVer')
+                    env.GitVersion_BranchName = props.getProperty('GitVersion_BranchName')
+                    env.GitVersion_AssemblySemVer = props.getProperty('GitVersion_AssemblySemVer')
+                    env.GitVersion_MajorMinorPatch = props.getProperty('GitVersion_MajorMinorPatch')
+                    env.GitVersion_Sha = props.getProperty('GitVersion_Sha')
                     echo env.GitVersion_SemVer
                     echo env.GitVersion_MajorMinorPatch
                     echo env.GitVersion_FullSemVer
