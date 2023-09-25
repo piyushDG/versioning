@@ -25,18 +25,18 @@ pipeline {
                     /var/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
                 '''
                 script {
-                    echo "This is Master branch Execution"
                     def props = readProperties file: 'gitversion.properties'
-                    env.GitVersion_SemVer = props.getProperty('GitVersion_SemVer')
-                    env.GitVersion_FullSemVer = props.getProperty('GitVersion_FullSemVer')
-                    env.GitVersion_BranchName = props.getProperty('GitVersion_BranchName')
-                    env.GitVersion_AssemblySemVer = props.getProperty('GitVersion_AssemblySemVer')
-                    env.GitVersion_MajorMinorPatch = props.getProperty('GitVersion_MajorMinorPatch')
-                    env.GitVersion_Sha = props.getProperty('GitVersion_Sha')
+                    env.GitVersion_SemVer = props['GitVersion_SemVer']
+                    env.GitVersion_FullSemVer = props['GitVersion_FullSemVer']
+                    env.GitVersion_BranchName = props['GitVersion_BranchName']
+                    env.GitVersion_AssemblySemVer = props['GitVersion_AssemblySemVer']
+                    env.GitVersion_MajorMinorPatch = props['GitVersion_MajorMinorPatch']
+                    env.GitVersion_Sha = props['GitVersion_Sha']
                     echo env.GitVersion_SemVer
                     echo env.GitVersion_MajorMinorPatch
                     echo env.GitVersion_FullSemVer
                 }
+
             }
         }
 
