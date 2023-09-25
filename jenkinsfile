@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('*branch-name*') {
+        stage('branch name') {
             steps {
                 echo "${env.BRANCH_NAME}"
                 sh '''
                     printenv
-                    # Other commands in this stage
+                    
                 '''
             }
         }
@@ -21,7 +21,7 @@ pipeline {
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /home/jenkins/.dotnet/tools/dotnet-gitversion /output buildserver
+                    /var/jenkins/.dotnet/tools/dotnet-gitversion /output buildserver
                 '''
                 script {
                     echo "This is Master branch Execution"
