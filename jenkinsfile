@@ -21,7 +21,7 @@ pipeline {
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /var/jenkins/.dotnet/tools/dotnet-gitversion /output buildserver
+                    /var/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
                 '''
                 script {
                     echo "This is Master branch Execution"
