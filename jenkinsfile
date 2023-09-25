@@ -22,7 +22,7 @@ pipeline {
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /home/jenkins/git-versioning/dotnet-gitversion /output buildserver
+                    /var/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
                 '''
                 script {
                     echo "This is Master branch Execution"
@@ -51,7 +51,7 @@ pipeline {
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /home/jenkins/git-versioning/dotnet-gitversion /output buildserver
+                    /var/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
                 '''
                 echo "This is Major branch Execution"
                 script {
@@ -80,7 +80,7 @@ pipeline {
                 echo "${BRANCH_NAME}"
                 sh '''
                     printenv
-                    /home/jenkins/git-versioning/dotnet-gitversion /output buildserver
+                    /var/jenkins_home/.dotnet/tools/dotnet-gitversion /output buildserver
                 '''
                 echo "This is bugfix branch Execution"
                 script {
