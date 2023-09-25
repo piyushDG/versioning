@@ -38,7 +38,7 @@ pipeline {
                 }
             }
         }
-        stage('featire') {
+        stage('feature') {
             when {
                 branch "feature"
             }
